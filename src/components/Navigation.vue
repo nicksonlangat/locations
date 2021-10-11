@@ -1,8 +1,8 @@
 <template>
-  <body
+    <body
     class="
       antialiased
-     
+      bg-gray-100
     "
   >
   <header>
@@ -16,7 +16,7 @@
           md:py-0
           px-4
           text-lg text-gray-700
-          bg-gray-100
+          bg-white
         "
       >
        <div>
@@ -97,13 +97,19 @@
               md:pt-0"
           >
             <li>
-               <router-link class="md:p-4 py-2 block hover:text-purple-400" to="/">Counties</router-link>
+              <a class="md:p-4 py-2 block hover:text-purple-400" href="#"
+                >Counties</a
+              >
             </li>
             <li>
-               <router-link class="md:p-4 py-2 block hover:text-purple-400" to="/constituencies">Constituencies</router-link>
+              <a class="md:p-4 py-2 block hover:text-purple-400" href="#"
+                >Constituencies</a
+              >
             </li>
             <li>
-             <router-link class="md:p-4 py-2 block hover:text-purple-400" to="/wards">Wards</router-link>
+              <a class="md:p-4 py-2 block hover:text-purple-400" href="#"
+                >Wards</a
+              >
             </li>
             <!-- <li>
               <a class="md:p-4 py-2 block hover:text-purple-400" href="#"
@@ -121,178 +127,5 @@
         </div>
     </nav>
   </header>
-  <br>
-  <h3 class="text-center text-gray-800 font-extrabold">CONSTITUENCY DATA</h3>  
-  <div class="px-4">
-    <section class="w-full max-w-2xl px-6 py-4 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-        
-        
-        <div class="mt-6 ">
-            <div class="items-center -mx-2 md:flex">
-                <div class="w-full mx-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">County</label>
-<div class="relative">
-      <select v-model="constituency.county" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-        <option selected >Select county</option>
-         <option v-for="county in counties" :key="county.id" :value="county.id">{{ county.name }}</option>
-        </select>
-      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-      </div>
-    </div>
-                    <!-- <input class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" type="text"> -->
-                </div>
-
-                <div class="w-full mx-2 mt-4 md:mt-0">
-                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">Constituency</label>
-
-                    <input v-model="constituency.name" class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" type="email">
-                </div>
-            </div>
-
-            <div class="flex justify-center mt-6">
-                <button @click="saveConstituency" class="px-4 py-2 text-white transition-colors duration-200 
-                transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Save Data</button>
-            </div>
-        </div>
-    </section>
-    <br>
-    <!-- component -->
-<link
-	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
-	rel="stylesheet">
-<div class="flex items-center justify-center ">
-	<div class="col-span-8">
-		<div class="overflow-auto lg:overflow-visible ">
-			<table class="table text-gray-400 border-separate space-y-4 text-sm">
-				<thead class="bg-gray-100 text-gray-500">
-					<tr>
-						<th class="p-3">CONSTITUENCY NAME</th>
-						<th class="p-8 text-left">RELATED COUNTY</th>
-						<th class="p-3 text-left">TOTAL WARDS</th>
-					<th class="p-3 text-left">COUNTRY</th>
-						<th class="p-3 text-left">ACTION</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="item in constituencies" v-bind:key="item.id" class="bg-gray-100">
-						<td class="p-3">
-							<div class="flex align-items-center">
-								<img class="rounded-full h-12 w-12  object-cover" src="../assets/K.png"  alt="unsplash image">
-								<div class="ml-3">
-									<div class="">{{item.name}}</div>
-									<div class="text-gray-500">constituency</div>
-								</div>
-							</div>
-						</td>
-						<td class="p-3">
-							{{item.county}} county
-						</td>
-						<td class="p-3 font-bold">
-						{{item.wards}} wards
-						</td>
-						<td class="p-3">
-							<span class=" text-bold text-gray-900 rounded-md px-2">Kenya</span>
-						</td>
-						<td class="p-3 ">
-							<a href="#" class="text-gray-900 hover:text-gray-900 mr-2">
-								<i class="material-icons-outlined text-base">picture_as_pdf</i>
-							</a>
-							
-							<a @click="deleteConstituency(item.id)" class="text-red-700 hover:text-red-900  ml-2">
-								<i class="material-icons-round text-base">delete_outline</i>
-							</a>
-						</td>
-					</tr>
-					
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
-    </div>
 </body>
-
 </template>
-<script>
-import axios from 'axios'
-export default {
-  data(){
-    return{
-      counties:[],
-      constituencies:[],
-      constituency: {
-        id: null,
-        county:'',
-        name: "",
-      },
-      submitted:false,
-    }
-  },
-  methods:{
-    getCounties(){
-      return axios.get('https://techwithnick.com/locations/counties/').then(res=>{
-        console.log(res)
-        this.counties= res.data.results
-        console.log(this.counties)
-      })
-    },
-    getConstituencies(){
-      return axios.get('https://techwithnick.com/locations/constituencies/').then(res=>{
-        console.log(res)
-        this.constituencies= res.data.results
-        console.log(this.constituencies)
-      })
-    },
-
-    saveConstituency(){
-      const data = {
-        county: this.constituency.county,
-        name: this.constituency.name,
-      };
-      return axios.post('https://techwithnick.com/locations/constituencies/',data)
-        .then(response => {
-          this.constituency.id = response.data.id;
-          console.log(response.data);
-          this.getCounties()
-          this.getConstituencies()
-          this.submitted=true
-          
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    deleteConstituency(id){
-      return axios.delete(`https://techwithnick.com/locations/constituencies/${id}/`)
-        .then(response => {
-          console.log(response.data);
-          this.getCounties()
-          this.getConstituencies()
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-
-    sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
-  },
-  created(){
-    this.getCounties()
-    this.getConstituencies()
-    const button = document.querySelector('#menu-button');
-const menu = document.querySelector('#menu');
-
-
-button.addEventListener('click', () => {
-  menu.classList.toggle('hidden');
-});
-
-  }
-}
-</script>

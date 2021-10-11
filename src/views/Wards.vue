@@ -103,7 +103,7 @@
                <router-link class="md:p-4 py-2 block hover:text-purple-400" to="/constituencies">Constituencies</router-link>
             </li>
             <li>
-             <router-link class="md:p-4 py-2 block hover:text-purple-400" to="/wards">Wards</router-link>
+              <router-link class="md:p-4 py-2 block hover:text-purple-400" to="/wards">Wards</router-link>
             </li>
             <!-- <li>
               <a class="md:p-4 py-2 block hover:text-purple-400" href="#"
@@ -122,19 +122,37 @@
     </nav>
   </header>
   <br>
-  <h3 class="text-center text-gray-800 font-extrabold">CONSTITUENCY DATA</h3>  
+  <h3 class="text-center text-gray-800 font-extrabold">WARD DATA</h3>  
   <div class="px-4">
+<!-- <div v-if="submitted">
+
+    <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div class="flex items-center justify-center w-12 bg-green-500">
+            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"/>
+            </svg>
+        </div>
+        
+        <div class="px-4 py-2 -mx-3">
+            <div class="mx-3">
+                <span class="font-semibold text-green-500 dark:text-green-400">Success</span>
+                <p class="text-sm text-gray-600 dark:text-gray-200">The data was saved!</p>
+            </div>
+        </div>
+    </div>
+        
+    </div> -->
     <section class="w-full max-w-2xl px-6 py-4 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
         
         
         <div class="mt-6 ">
             <div class="items-center -mx-2 md:flex">
                 <div class="w-full mx-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">County</label>
+                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">Constituency</label>
 <div class="relative">
-      <select v-model="constituency.county" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-        <option selected >Select county</option>
-         <option v-for="county in counties" :key="county.id" :value="county.id">{{ county.name }}</option>
+      <select v-model="ward.constituency" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+        <option selected >Select constituency</option>
+         <option v-for="item in constituencies" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
       <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -144,14 +162,14 @@
                 </div>
 
                 <div class="w-full mx-2 mt-4 md:mt-0">
-                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">Constituency</label>
+                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200">Ward</label>
 
-                    <input v-model="constituency.name" class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" type="email">
+                    <input v-model="ward.name" class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" type="email">
                 </div>
             </div>
 
             <div class="flex justify-center mt-6">
-                <button @click="saveConstituency" class="px-4 py-2 text-white transition-colors duration-200 
+                <button @click="saveWard" class="px-4 py-2 text-white transition-colors duration-200 
                 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Save Data</button>
             </div>
         </div>
@@ -167,29 +185,29 @@
 			<table class="table text-gray-400 border-separate space-y-4 text-sm">
 				<thead class="bg-gray-100 text-gray-500">
 					<tr>
-						<th class="p-3">CONSTITUENCY NAME</th>
-						<th class="p-8 text-left">RELATED COUNTY</th>
-						<th class="p-3 text-left">TOTAL WARDS</th>
+						<th class="p-3">WARD NAME</th>
+						<th class="p-8 text-left">RELATED CONSTITUENCY</th>
+						<th class="p-3 text-left">REALATED COUNTY</th>
 					<th class="p-3 text-left">COUNTRY</th>
 						<th class="p-3 text-left">ACTION</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="item in constituencies" v-bind:key="item.id" class="bg-gray-100">
+					<tr v-for="item in wards" v-bind:key="item.id" class="bg-gray-100">
 						<td class="p-3">
 							<div class="flex align-items-center">
 								<img class="rounded-full h-12 w-12  object-cover" src="../assets/K.png"  alt="unsplash image">
 								<div class="ml-3">
 									<div class="">{{item.name}}</div>
-									<div class="text-gray-500">constituency</div>
+									<div class="text-gray-500">ward</div>
 								</div>
 							</div>
 						</td>
 						<td class="p-3">
-							{{item.county}} county
+							{{item.constituency}} constituency
 						</td>
 						<td class="p-3 font-bold">
-						{{item.wards}} wards
+						{{item.county}} county
 						</td>
 						<td class="p-3">
 							<span class=" text-bold text-gray-900 rounded-md px-2">Kenya</span>
@@ -199,7 +217,7 @@
 								<i class="material-icons-outlined text-base">picture_as_pdf</i>
 							</a>
 							
-							<a @click="deleteConstituency(item.id)" class="text-red-700 hover:text-red-900  ml-2">
+							<a @click="deleteWard(item.id)" class="text-red-700 hover:text-red-900  ml-2">
 								<i class="material-icons-round text-base">delete_outline</i>
 							</a>
 						</td>
@@ -219,22 +237,22 @@ import axios from 'axios'
 export default {
   data(){
     return{
-      counties:[],
+      wards:[],
       constituencies:[],
-      constituency: {
+      ward: {
         id: null,
-        county:'',
+        constituency:'',
         name: "",
       },
       submitted:false,
     }
   },
   methods:{
-    getCounties(){
-      return axios.get('https://techwithnick.com/locations/counties/').then(res=>{
+    getWards(){
+      return axios.get('https://techwithnick.com/locations/wards/').then(res=>{
         console.log(res)
-        this.counties= res.data.results
-        console.log(this.counties)
+        this.wards= res.data.results
+        console.log('wards',this.wards)
       })
     },
     getConstituencies(){
@@ -245,16 +263,16 @@ export default {
       })
     },
 
-    saveConstituency(){
+    saveWard(){
       const data = {
-        county: this.constituency.county,
-        name: this.constituency.name,
+        constituency: this.ward.constituency,
+        name: this.ward.name,
       };
-      return axios.post('https://techwithnick.com/locations/constituencies/',data)
+      return axios.post('https://techwithnick.com/locations/wards/',data)
         .then(response => {
-          this.constituency.id = response.data.id;
+          this.ward.id = response.data.id;
           console.log(response.data);
-          this.getCounties()
+          this.getWards()
           this.getConstituencies()
           this.submitted=true
           
@@ -263,35 +281,27 @@ export default {
           console.log(e);
         });
     },
-    deleteConstituency(id){
-      return axios.delete(`https://techwithnick.com/locations/constituencies/${id}/`)
+    deleteWard(id){
+      return axios.delete(`https://techwithnick.com/locations/wards/${id}/`)
         .then(response => {
           console.log(response.data);
-          this.getCounties()
+          this.getWards()
           this.getConstituencies()
         })
         .catch(e => {
           console.log(e);
         });
     },
-
-    sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
   },
+
   created(){
-    this.getCounties()
+    this.getWards()
     this.getConstituencies()
     const button = document.querySelector('#menu-button');
-const menu = document.querySelector('#menu');
-
-
-button.addEventListener('click', () => {
-  menu.classList.toggle('hidden');
-});
+    const menu = document.querySelector('#menu');
+    button.addEventListener('click', () => {
+       menu.classList.toggle('hidden');
+     });
 
   }
 }

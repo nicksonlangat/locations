@@ -122,7 +122,7 @@
     </nav>
   </header>
   <br>
-  <h3 class="text-center text-gray-800 font-extrabold">WARD DATA</h3>  
+  <h3 class="text-center text-gray-800 font-extrabold">WARD DATA ({{wards.length}} wards)</h3>  
   <div class="px-4">
 <!-- <div v-if="submitted">
 
@@ -181,6 +181,15 @@
 	rel="stylesheet">
 <div class="flex items-center justify-center ">
 	<div class="col-span-8">
+    <div class="flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2 text-dark-600" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <input type="text"  v-model="name" name="search" placeholder="search by ward name"
+        class="w-1/2 py-2 border-b-2 border-blue-400 outline-none focus:border-green-400">
+</div>
 		<div class="overflow-auto lg:overflow-visible ">
 			<table class="table text-gray-400 border-separate space-y-4 text-sm">
 				<thead class="bg-gray-100 text-gray-500">
@@ -193,7 +202,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="item in wards" v-bind:key="item.id" class="bg-gray-100">
+					<tr v-for="item in filteredWards" v-bind:key="item.id" class="bg-gray-100">
 						<td class="p-3">
 							<div class="flex align-items-center">
 								<img class="rounded-full h-12 w-12  object-cover" src="../assets/K.png"  alt="unsplash image">
@@ -238,6 +247,7 @@ export default {
   data(){
     return{
       wards:[],
+      name:'',
       constituencies:[],
       ward: {
         id: null,
@@ -246,6 +256,13 @@ export default {
       },
       submitted:false,
     }
+  },
+  computed: {
+    filteredWards() {
+      return this.wards.filter((ward) => {
+        return ward.name.toLowerCase().includes(this.name.toLowerCase());
+      });
+    },
   },
   methods:{
     getWards(){

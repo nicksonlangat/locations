@@ -122,7 +122,7 @@
     </nav>
   </header>
   <br>
-  <h3 class="text-center text-gray-800 font-extrabold">COUNTY DATA</h3>
+  <h3 class="text-center text-gray-800 font-extrabold">COUNTY DATA ({{counties.length}} counties)</h3>
     <section class="w-full max-w-2xl px-6 py-4 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
         
         
@@ -152,12 +152,27 @@
         </div>
     </section>
     <br>
-    <!-- component -->
+    
+
+    
 <link
 	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
 	rel="stylesheet">
 <div class="flex items-center justify-center ">
 	<div class="col-span-8">
+    <!-- <div class="relative mr-6 my-2">
+  <input v-model="name" name="search" class="bg-purple-white shadow rounded border-0 block w-1/2full px-4 py-2 " placeholder="Search by name...">
+  
+</div> -->
+<div class="flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2 text-dark-600" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <input type="text"  v-model="name" name="search" placeholder="search by county name"
+        class="w-1/2 py-2 border-b-2 border-blue-400 outline-none focus:border-green-400">
+</div>
 		<div class="overflow-auto lg:overflow-visible ">
 			<table class="table text-gray-400 border-separate space-y-4 text-sm">
 				<thead class="bg-gray-100 text-gray-500">
@@ -170,7 +185,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="county in counties" v-bind:key="county.id" class="bg-gray-100">
+					<tr v-for="county in filteredCounties" v-bind:key="county.id" class="bg-gray-100">
 						<td class="p-3">
 							<div class="flex align-items-center">
 								<img class="rounded-full h-12 w-12  object-cover" src="../assets/K.png" alt="unsplash image">
@@ -199,6 +214,28 @@
 							</a>
 						</td>
 					</tr>
+
+    <div class="flex">
+        <a href="#" class="flex items-center px-4 py-2 mx-1 text-gray-500 bg-white rounded-md cursor-not-allowed dark:bg-gray-800 dark:text-gray-600">
+            previous
+        </a>
+
+        <a href="#" class="flex items-center px-4 py-2 mx-1 text-gray-700 transition-colors duration-200 transform bg-white rounded-md dark:bg-gray-800 dark:text-gray-200 hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:text-white dark:hover:text-gray-200">
+            1
+        </a>
+
+        <a href="#" class="flex items-center px-4 py-2 mx-1 text-gray-700 transition-colors duration-200 transform bg-white rounded-md dark:bg-gray-800 dark:text-gray-200 hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:text-white dark:hover:text-gray-200">
+            2
+        </a>
+
+        <a href="#" class="flex items-center px-4 py-2 mx-1 text-gray-700 transition-colors duration-200 transform bg-white rounded-md dark:bg-gray-800 dark:text-gray-200 hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:text-white dark:hover:text-gray-200">
+            3
+        </a>
+
+        <a href="#" class="flex items-center px-4 py-2 mx-1 text-gray-700 transition-colors duration-200 transform bg-white rounded-md dark:bg-gray-800 dark:text-gray-200 hover:bg-indigo-600 dark:hover:bg-indigo-500 hover:text-white dark:hover:text-gray-200">
+            Next
+        </a>
+    </div>
 					
 				</tbody>
 			</table>
@@ -215,11 +252,19 @@ export default {
   data(){
     return{
       counties:[],
+      name:'',
       county: {
         id: null,
         name: "",
       },
     }
+  },
+  computed: {
+    filteredCounties() {
+      return this.counties.filter((county) => {
+        return county.name.toLowerCase().includes(this.name.toLowerCase());
+      });
+    },
   },
   methods:{
     getCounties(){

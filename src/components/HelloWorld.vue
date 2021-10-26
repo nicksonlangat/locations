@@ -122,7 +122,7 @@
     </nav>
   </header>
   <br>
-  <h3 class="text-center text-gray-800 font-extrabold">CONSTITUENCY DATA</h3>  
+  <h3 class="text-center text-gray-800 font-extrabold">CONSTITUENCY DATA ({{constituencies.length}} constituencies)</h3>  
   <div class="px-4">
     <section class="w-full max-w-2xl px-6 py-4 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
         
@@ -162,7 +162,17 @@
 	href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
 	rel="stylesheet">
 <div class="flex items-center justify-center ">
+  
 	<div class="col-span-8">
+    <div class="flex items-center">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2 text-dark-600" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <input type="text"  v-model="name" name="search" placeholder="search by constituency name"
+        class="w-1/2 py-2 border-b-2 border-blue-400 outline-none focus:border-green-400">
+</div>
 		<div class="overflow-auto lg:overflow-visible ">
 			<table class="table text-gray-400 border-separate space-y-4 text-sm">
 				<thead class="bg-gray-100 text-gray-500">
@@ -175,7 +185,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="item in constituencies" v-bind:key="item.id" class="bg-gray-100">
+					<tr v-for="item in filteredConstituencies" v-bind:key="item.id" class="bg-gray-100">
 						<td class="p-3">
 							<div class="flex align-items-center">
 								<img class="rounded-full h-12 w-12  object-cover" src="../assets/K.png"  alt="unsplash image">
@@ -220,6 +230,7 @@ export default {
   data(){
     return{
       counties:[],
+      name:'',
       constituencies:[],
       constituency: {
         id: null,
@@ -228,6 +239,13 @@ export default {
       },
       submitted:false,
     }
+  },
+  computed: {
+    filteredConstituencies() {
+      return this.constituencies.filter((constituency) => {
+        return constituency.name.toLowerCase().includes(this.name.toLowerCase());
+      });
+    },
   },
   methods:{
     getCounties(){
